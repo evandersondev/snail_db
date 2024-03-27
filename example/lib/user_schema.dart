@@ -1,4 +1,4 @@
-import 'package:snail_db/src/schema.dart';
+import 'package:snail_db/snail_db.dart';
 
 class UserSchema extends Schema {
   final String name;

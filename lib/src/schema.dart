@@ -1,14 +1,19 @@
 import 'package:uuid/uuid.dart';
 
-class Schema {
-  // ignore: unused_field
-  String? _id;
+abstract class Schema {
+  String? id;
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  Schema() {
-    _id = Uuid().v4();
-    createdAt = DateTime.now();
-    updatedAt = DateTime.now();
+  Schema({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+  }) {
+    id = id ?? Uuid().v4();
+    createdAt = createdAt ?? DateTime.now();
+    updatedAt = updatedAt ?? DateTime.now();
   }
+
+  Map<String, dynamic> toMap();
 }

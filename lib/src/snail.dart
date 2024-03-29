@@ -2,35 +2,45 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:snail_db/src/document.dart';
-import 'package:snail_db/src/schema.dart';
+import 'package:snail_db/snail_db.dart';
 
-class Snail {
-  Snail._();
-  static final instance = Snail._();
+/*
+  Snail.initCollections();
+  final snail = Snail.getInstance();
+  final box = await snail.document<UserScema>()
+  
+  await box.create(user);
+  await box.findMany();
+  await box.find(user.id);
+  await box.delete(user.id);
+*/
 
-  final Map<Type, dynamic> _documents = {};
+abstract class SnailDatabse {
+  final Map<Type, Document> _documents = {};
+  Map<Type, Document> get document => _documents;
 
-  Future<void> init({required List<Document<Schema>> documents}) async {
+  static Future<void> initCollection(String name) async {
+    final storage = FlutterSecureStorage();
+
+    await storage.write(key: 'snail@collection:$name', value: '');
+    // for (var document in documents) {
+    //   final documentName = 'snail:${document.documentName}';
+    //   final documentExists = await storage.containsKey(key: 'documentName');
+
+    //   if (!documentExists) {
+    //     storage.write(
+    //       key: 'snail:$documentName',
+    //       value: json.encode([]),
+    //     );
+    //   }
+    // }
+  }
+
+  Future<void> registerDocuments({required List<Document> documents}) async {
     final storage = FlutterSecureStorage();
 
     for (var document in documents) {
-      instance._documents[document.runtimeType] = document;
-
-      await storage.write(
-        key: 'snail:${document.documentName}',
-        value: jsonEncode({}),
-      );
-    }
-  }
-
-  Document<T> document<T>() {
-    final typeName = T.toString();
-
-    if (_documents.containsKey(typeName)) {
-      return _documents[typeName] as Document<T>;
-    } else {
-      throw Exception('table');
+      // _documents[document.]
     }
   }
 }

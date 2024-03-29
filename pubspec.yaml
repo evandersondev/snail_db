@@ -1,16 +1,14 @@
 name: snail_db
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/evandersondev/snail_db
 
 environment:
   sdk: ^3.0.5
 
-# Add regular dependencies here.
 dependencies:
-  flutter_secure_storage: ^9.0.0
   uuid: ^4.3.3
-  # path: ^1.8.0
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   lints: ^2.0.0

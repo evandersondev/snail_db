@@ -1,33 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:snail_db/src/schema.dart';
 
-class Document<T> {
-  final String documentName;
-
-  Document(this.documentName);
-
+class Document<T extends Schema> {
   Future<List<T>> findMany() async {
     final storage = FlutterSecureStorage();
-    final result = await storage.read(key: 'snail:$documentName') as List?;
+    final result = await storage.readAll();
 
-    if (result != null) {
-      return Future.value([...result]);
-    } else {
-      throw Exception('Database not created');
-    }
+    // return result.entries
+    //     .where((element) => element.key.startsWith('snail:$documentName'))
+    //     .map((e) => fromMap(json.decode(e.value)))
+    //     .toList();
+    return [];
   }
 
   Future<void> create(Schema schema) async {
     final storage = FlutterSecureStorage();
 
-    try {
-      await storage.write(
-        key: 'snail:$documentName',
-        value: schema.toString(),
-      );
-    } catch (e) {
-      throw Exception('Database not created');
-    }
+    await storage.write(
+      key: 'snail@document:${schema.id}',
+      value: json.encode(schema),
+    );
   }
 }
